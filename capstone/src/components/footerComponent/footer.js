@@ -1,11 +1,11 @@
-import React, { Component } from './node_modules/react';
+import React, { Component } from 'react';
 
 class Footer extends Component {
   render() {
     return (
       <footer>
         <div>
-          Footer component
+          Footer page
         </div>
       </footer>
     )

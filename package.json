@@ -8,7 +8,8 @@
     "start": "node ./server/index.js",
     "build": "webpack -p",
     "react-dev": "webpack -d --watch",
-    "server-dev": "nodemon server/index.js"
+    "server-dev": "nodemon server/index.js",
+    "test": "jest"
   },
   "dependencies": {
     "@coreui/coreui": "^2.1.8",
@@ -18,5 +19,8 @@
     "react-bootstrap": "0.28.1",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0"
+  },
+  "devDependencies": {
+    "jest": "^24.8.0"
   }
 }
