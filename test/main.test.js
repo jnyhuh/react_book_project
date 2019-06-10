@@ -19,3 +19,15 @@ test('change password', () => {
 test('create new user', () => {
     expect(createUser("username", "password", "email@email.com")).toBe("user created");
   });
+
+test('login', () => {
+  expect(login("username", "password", "email@email.com")).toBe("logged in");
+});
+
+test('render login', () => {
+  expect(handleAuthState(authState === STATE_LOGIN)).toBe(this.props.history.push('/login'));
+});
+
+test('render sign up', () => {
+  expect(handleAuthState(authState != STATE_LOGIN)).toBe(this.props.history.push('/signup'));
+});
