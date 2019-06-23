@@ -2,6 +2,7 @@ import logo200Image from 'assets/img/logo/logo_200.png';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
+import { withFirebase } from './Firebase';
 
 const INITIAL_STATE = {
   email: '',
@@ -10,7 +11,7 @@ const INITIAL_STATE = {
   error: null,
 };
 
-class AuthForm extends React.Component {
+class AuthFormBase extends React.Component {
   constructor(props) {
     super(props);
 
@@ -158,7 +159,7 @@ class AuthForm extends React.Component {
 export const STATE_LOGIN = 'LOGIN';
 export const STATE_SIGNUP = 'SIGNUP';
 
-AuthForm.propTypes = {
+AuthFormBase.propTypes = {
   authState: PropTypes.oneOf([STATE_LOGIN, STATE_SIGNUP]).isRequired,
   showLogo: PropTypes.bool,
   usernameLabel: PropTypes.string,
@@ -170,7 +171,7 @@ AuthForm.propTypes = {
   onLogoClick: PropTypes.func,
 };
 
-AuthForm.defaultProps = {
+AuthFormBase.defaultProps = {
   authState: 'LOGIN',
   showLogo: true,
   usernameLabel: 'Email',
@@ -193,5 +194,7 @@ AuthForm.defaultProps = {
   },
   onLogoClick: () => {},
 };
+
+const AuthForm = withFirebase(AuthFormBase);
 
 export default AuthForm;
