@@ -52,6 +52,19 @@ class AuthFormBase extends React.Component {
           this.setState({ error });
         });
     }
+    else if (this.isLogin) {
+      const { email, password } = this.state;
+
+      this.props.firebase
+        .doSignInWithEmailAndPassword(email, password)
+        .then(() => {
+          this.setState({ ...INITIAL_STATE });
+          this.props.history.push('/');
+        })
+        .catch(error => {
+          this.setState({ error });
+        });
+    }
     event.preventDefault();
   };
 
@@ -90,7 +103,7 @@ class AuthFormBase extends React.Component {
     } = this.props;
 
     const isInvalid =
-      password !== confirmPassword ||
+      (this.isSignup && password !== confirmPassword) ||
       password === '' ||
       email === '';
 
