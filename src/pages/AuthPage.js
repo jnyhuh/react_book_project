@@ -2,6 +2,8 @@ import AuthForm, { STATE_LOGIN } from 'components/AuthForm';
 import React from 'react';
 import { Card, Col, Row } from 'reactstrap';
 
+import { FirebaseContext } from '../components/Firebase';
+
 class AuthPage extends React.Component {
   handleAuthState = authState => {
     if (authState === STATE_LOGIN) {
@@ -25,11 +27,16 @@ class AuthPage extends React.Component {
         }}>
         <Col md={6} lg={4}>
           <Card body>
-            <AuthForm
-              authState={this.props.authState}
-              onChangeAuthState={this.handleAuthState}
-              onLogoClick={this.handleLogoClick}
-            />
+            <FirebaseContext.Consumer>
+              { firebase =>
+                <AuthForm
+                  firebase={firebase}
+                  authState={this.props.authState}
+                  onChangeAuthState={this.handleAuthState}
+                  onLogoClick={this.handleLogoClick}
+                />
+              }
+            </FirebaseContext.Consumer>
           </Card>
         </Col>
       </Row>

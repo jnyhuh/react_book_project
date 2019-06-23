@@ -3,7 +3,24 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 
+const INITIAL_STATE = {
+  email: '',
+  password: '',
+  confirmPassword: '',
+  error: null,
+};
+
 class AuthForm extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { ...INITIAL_STATE };
+  }
+
+  onChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
   get isLogin() {
     return this.props.authState === STATE_LOGIN;
   }
@@ -19,6 +36,18 @@ class AuthForm extends React.Component {
   };
 
   handleSubmit = event => {
+    if (this.isSignup) {
+      const { email, password } = this.state;
+
+      this.props.firebase
+        .doCreateUserWithEmailAndPassword(email, password)
+        .then(authUser => {
+          this.setState({ ...INITIAL_STATE });
+        })
+        .catch(error => {
+          this.setState({ error });
+        });
+    }
     event.preventDefault();
   };
 
@@ -38,6 +67,13 @@ class AuthForm extends React.Component {
 
   render() {
     const {
+      email,
+      password,
+      confirmPassword,
+      error,
+    } = this.state;
+    
+    const {
       showLogo,
       usernameLabel,
       usernameInputProps,
@@ -48,6 +84,11 @@ class AuthForm extends React.Component {
       children,
       onLogoClick,
     } = this.props;
+
+    const isInvalid =
+      password !== confirmPassword ||
+      password === '' ||
+      email === '';
 
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -64,16 +105,16 @@ class AuthForm extends React.Component {
         )}
         <FormGroup>
           <Label for={usernameLabel}>{usernameLabel}</Label>
-          <Input {...usernameInputProps} />
+          <Input {...usernameInputProps} value={email} onChange={this.onChange} />
         </FormGroup>
         <FormGroup>
           <Label for={passwordLabel}>{passwordLabel}</Label>
-          <Input {...passwordInputProps} />
+          <Input {...passwordInputProps} value={password} onChange={this.onChange} />
         </FormGroup>
         {this.isSignup && (
           <FormGroup>
             <Label for={confirmPasswordLabel}>{confirmPasswordLabel}</Label>
-            <Input {...confirmPasswordInputProps} />
+            <Input {...confirmPasswordInputProps} value={confirmPassword} onChange={this.onChange} />
           </FormGroup>
         )}
         <FormGroup check>
@@ -83,10 +124,12 @@ class AuthForm extends React.Component {
           </Label>
         </FormGroup>
         <hr />
+        {error && <p>{error.message}</p>}
         <Button
           size="lg"
           className="bg-gradient-theme-left border-0"
           block
+          disabled={isInvalid}
           onClick={this.handleSubmit}>
           {this.renderButtonText()}
         </Button>
@@ -132,16 +175,19 @@ AuthForm.defaultProps = {
   showLogo: true,
   usernameLabel: 'Email',
   usernameInputProps: {
+    name: 'email',
     type: 'email',
     placeholder: 'your@email.com',
   },
   passwordLabel: 'Password',
   passwordInputProps: {
+    name: 'password',
     type: 'password',
     placeholder: 'your password',
   },
   confirmPasswordLabel: 'Confirm Password',
   confirmPasswordInputProps: {
+    name: 'confirmPassword',
     type: 'password',
     placeholder: 'confirm your password',
   },
