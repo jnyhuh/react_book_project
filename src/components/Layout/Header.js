@@ -30,6 +30,8 @@ import {
 } from 'reactstrap';
 import bn from 'utils/bemnames';
 
+import SignOutButton from './SignOutButton';
+
 const bem = bn.create('header');
 
 const MdNotificationsActiveWithBadge = withBadge({
@@ -156,9 +158,7 @@ class Header extends React.Component {
                     <ListGroupItem tag="button" action className="border-light">
                       <MdHelp /> Help
                     </ListGroupItem>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdExitToApp /> Signout
-                    </ListGroupItem>
+                    <SignOutButton />
                   </ListGroup>
                 </UserCard>
               </PopoverBody>
