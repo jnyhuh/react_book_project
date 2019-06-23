@@ -4,6 +4,8 @@ import React from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import { withFirebase } from './Firebase';
 
+import { withRouter } from 'react-router-dom';
+
 const INITIAL_STATE = {
   email: '',
   password: '',
@@ -44,6 +46,7 @@ class AuthFormBase extends React.Component {
         .doCreateUserWithEmailAndPassword(email, password)
         .then(authUser => {
           this.setState({ ...INITIAL_STATE });
+          this.props.history.push('/login');
         })
         .catch(error => {
           this.setState({ error });
@@ -195,6 +198,6 @@ AuthFormBase.defaultProps = {
   onLogoClick: () => {},
 };
 
-const AuthForm = withFirebase(AuthFormBase);
+const AuthForm = withRouter(withFirebase(AuthFormBase));
 
 export default AuthForm;
