@@ -18,17 +18,22 @@ import {
 } from 'reactstrap';
 import bn from 'utils/bemnames';
 
+import { AuthUserContext } from '../Session';
+
 const sidebarBackground = {
   backgroundImage: `url("${sidebarBgImage}")`,
   backgroundSize: 'cover',
   backgroundRepeat: 'no-repeat',
 };
 
-const navItems = [
+const navItemsAuth = [
   { to: '/', name: 'dashboard', exact: true, Icon: MdDashboard },
   { to: '/books', name: 'books', exact: true, Icon: FaBook },
   { to: '/friends', name: 'friends', exact: false, Icon: FaUserFriends },
   { to: '/events', name: 'events', exact: false, Icon: FaCalendar },
+];
+
+const navItemsNonAuth = [
   { to: '/login', name: 'login / signup', exact: false, Icon: MdAccountCircle },
 ];
 
@@ -71,21 +76,40 @@ class Sidebar extends React.Component {
             </SourceLink>
           </Navbar>
           <Nav vertical>
-            {navItems.map(({ to, name, exact, Icon }, index) => (
-              <NavItem key={index} className={bem.e('nav-item')}>
-                <BSNavLink
-                  id={`navItem-${name}-${index}`}
-                  className="text-uppercase"
-                  tag={NavLink}
-                  to={to}
-                  activeClassName="active"
-                  exact={exact}
-                >
-                  <Icon className={bem.e('nav-item-icon')} />
-                  <span className="">{name}</span>
-                </BSNavLink>
-              </NavItem>
-            ))}
+            <AuthUserContext.Consumer>
+              { authUser => authUser ? (
+                navItemsAuth.map(({ to, name, exact, Icon }, index) => (
+                <NavItem key={index} className={bem.e('nav-item')}>
+                  <BSNavLink
+                    id={`navItem-${name}-${index}`}
+                    className="text-uppercase"
+                    tag={NavLink}
+                    to={to}
+                    activeClassName="active"
+                    exact={exact}
+                  >
+                    <Icon className={bem.e('nav-item-icon')} />
+                    <span className="">{name}</span>
+                  </BSNavLink>
+                </NavItem>
+                ))) : (
+                navItemsNonAuth.map(({ to, name, exact, Icon }, index) => (
+                <NavItem key={index} className={bem.e('nav-item')}>
+                  <BSNavLink
+                    id={`navItem-${name}-${index}`}
+                    className="text-uppercase"
+                    tag={NavLink}
+                    to={to}
+                    activeClassName="active"
+                    exact={exact}
+                  >
+                    <Icon className={bem.e('nav-item-icon')} />
+                    <span className="">{name}</span>
+                  </BSNavLink>
+                </NavItem>
+                )))
+              }
+            </AuthUserContext.Consumer>
           </Nav>
         </div>
       </aside>
