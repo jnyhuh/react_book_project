@@ -6,6 +6,8 @@ import { withFirebase } from './Firebase';
 
 import { withRouter } from 'react-router-dom';
 
+import { PasswordForgetLink } from './PasswordForget';
+
 const INITIAL_STATE = {
   email: '',
   password: '',
@@ -140,6 +142,7 @@ class AuthFormBase extends React.Component {
             {this.isSignup ? 'Agree the terms and policy' : 'Remember me'}
           </Label>
         </FormGroup>
+        <PasswordForgetLink />
         <hr />
         {error && <p>{error.message}</p>}
         <Button

@@ -10,6 +10,7 @@ import { BrowserRouter, Redirect, Switch } from 'react-router-dom';
 import './styles/reduction.scss';
 
 import { withAuthentication } from 'components/Session';
+import PasswordForgetPage from 'components/PasswordForget';
 
 const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`;
@@ -36,6 +37,12 @@ class App extends React.Component {
               component={props => (
                 <AuthPage {...props} authState={STATE_SIGNUP} />
               )}
+            />
+            <LayoutRoute
+              exact
+              path="/pw-forget"
+              layout={EmptyLayout}
+              component={PasswordForgetPage}
             />
             <LayoutRoute
               exact
