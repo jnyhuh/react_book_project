@@ -36,11 +36,6 @@ const lastWeek = new Date(
 );
 
 class DashboardPage extends React.Component {
-  componentDidMount() {
-    // this is needed, because InfiniteCalendar forces window scroll
-    window.scrollTo(0, 0);
-  }
-
   render() {
     const primaryColor = getColor('primary');
     const secondaryColor = getColor('secondary');
@@ -105,7 +100,7 @@ class DashboardPage extends React.Component {
         <Row>
           <Col md="7" sm="12" xs="12">
             <Card>
-              <CardHeader>New Books</CardHeader>
+              <CardHeader>Books on Sale</CardHeader>
               <CardBody>
                 {productsData.map(
                   ({ id, image, title, description, right }) => (

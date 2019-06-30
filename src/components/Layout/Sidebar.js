@@ -9,8 +9,6 @@ import {
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import {
-  // UncontrolledTooltip,
-  Collapse,
   Nav,
   Navbar,
   NavItem,
@@ -29,7 +27,7 @@ const navItems = [
   { to: '/books', name: 'books', exact: true, Icon: FaBook },
   { to: '/friends', name: 'friends', exact: false, Icon: FaUserFriends },
   { to: '/events', name: 'events', exact: false, Icon: FaCalendar },
-  { to: '/login', name: 'login / signup', exact: false, Icon: MdAccountCircle },
+  { to: '/login', name: 'Login / signup', exact: false, Icon: MdAccountCircle },
 ];
 
 const bem = bn.create('sidebar');

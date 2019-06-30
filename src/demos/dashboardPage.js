@@ -38,6 +38,38 @@ export const productsData = [
   },
 ];
 
+export const booksRead = [
+  {
+    id: 1,
+    image: product1Image,
+    title: 'To Kill a Mockingbird',
+    author: 'Harper Lee',
+    review: 'This was a great book. I read it when I was in middle school and now I\'m reading it again as an adult.',
+    stars: '5',
+  },
+  {
+    id: 2,
+    image: product2Image,
+    title: 'Guitar for Dummies',
+    author: 'Jon Chappell, Mark Phillips',
+    right: '$9',
+  },
+  {
+    id: 3,
+    image: product3Image,
+    title: 'Educated',
+    author: 'Tara Westover',
+    right: '$12.99',
+  },
+  {
+    id: 4,
+    image: product4Image,
+    title: 'The Reckoning',
+    author: 'John Grisham',
+    right: '$20',
+  },
+];
+
 export const avatarsData = [
   {
     avatar: user1Image,

@@ -1,7 +1,6 @@
 import Avatar from 'components/Avatar';
 import { UserCard } from 'components/Card';
 import Notifications from 'components/Notifications';
-import SearchInput from 'components/SearchInput';
 import { notificationsData } from 'demos/header';
 import withBadge from 'hocs/withBadge';
 import React from 'react';
@@ -42,7 +41,7 @@ const MdNotificationsActiveWithBadge = withBadge({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  children: <small>5</small>,
+  children: <small>4</small>,
 })(MdNotificationsActive);
 
 class Header extends React.Component {
@@ -84,9 +83,6 @@ class Header extends React.Component {
           <Button outline onClick={this.handleSidebarControlButton}>
             <MdClearAll size={25} />
           </Button>
-        </Nav>
-        <Nav navbar>
-          <SearchInput />
         </Nav>
 
         <Nav navbar className={bem.e('nav-right')}>

@@ -4,6 +4,8 @@ import { EmptyLayout, LayoutRoute, MainLayout } from 'components/Layout';
 import AuthPage from 'pages/AuthPage';
 // pages
 import DashboardPage from 'pages/DashboardPage';
+import EventsPage from 'pages/EventsPage';
+import BooksPage from 'pages/BooksPage';
 import React from 'react';
 import componentQueries from 'react-component-queries';
 import { BrowserRouter, Redirect, Switch } from 'react-router-dom';
@@ -40,6 +42,18 @@ class App extends React.Component {
               path="/"
               layout={MainLayout}
               component={DashboardPage}
+            />
+            <LayoutRoute
+              exact
+              path="/events"
+              layout={MainLayout}
+              component={EventsPage}
+            />
+            <LayoutRoute
+              exact
+              path="/books"
+              layout={MainLayout}
+              component={BooksPage}
             />
             <LayoutRoute
               exact
