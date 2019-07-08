@@ -1,6 +1,7 @@
 import { STATE_LOGIN, STATE_SIGNUP } from 'components/AuthForm';
 import GAListener from 'components/GAListener';
 import { EmptyLayout, LayoutRoute, MainLayout } from 'components/Layout';
+import {Route} from 'react-router-dom';
 import AuthPage from 'pages/AuthPage';
 // pages
 import DashboardPage from 'pages/DashboardPage';
@@ -10,6 +11,7 @@ import React from 'react';
 import componentQueries from 'react-component-queries';
 import { BrowserRouter, Redirect, Switch } from 'react-router-dom';
 import './styles/reduction.scss';
+import Callback from './Callback';
 
 const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`;
@@ -21,7 +23,7 @@ class App extends React.Component {
       <BrowserRouter basename={getBasename()}>
         <GAListener>
           <Switch>
-            <LayoutRoute
+            {/* <LayoutRoute
               exact
               path="/login"
               layout={EmptyLayout}
@@ -29,6 +31,7 @@ class App extends React.Component {
                 <AuthPage {...props} authState={STATE_LOGIN} />
               )}
             />
+            
             <LayoutRoute
               exact
               path="/signup"
@@ -36,6 +39,11 @@ class App extends React.Component {
               component={props => (
                 <AuthPage {...props} authState={STATE_SIGNUP} />
               )}
+            /> */}
+            <Route 
+              exact 
+              path="/callback"
+              component={Callback}
             />
             <LayoutRoute
               exact

@@ -28,6 +28,7 @@ import {
   PopoverBody,
 } from 'reactstrap';
 import bn from 'utils/bemnames';
+import auth0Client from '../../Auth';
 
 const bem = bn.create('header');
 
@@ -47,8 +48,16 @@ const MdNotificationsActiveWithBadge = withBadge({
 class Header extends React.Component {
   state = {
     isOpenNotificationPopover: false,
-    isNotificationConfirmed: false,
+    isNotificationConfirmed: true,
     isOpenUserCardPopover: false,
+    isAuthenticated: false,
+  };
+
+  signOut = () => {
+    auth0Client.signOut();
+    this.setState({
+      isAuthenticated: false,
+    });
   };
 
   toggleNotificationPopover = () => {
@@ -116,12 +125,25 @@ class Header extends React.Component {
 
           <NavItem>
             <NavLink id="Popover2">
+            {
+              !auth0Client.isAuthenticated() &&
+              <button className="btn btn-dark" onClick={auth0Client.signIn}>Sign In</button>
+            }
+            {
+              auth0Client.isAuthenticated() &&
+              <div>
+              <label className="mr-2 text-black">{auth0Client.getProfile().name}</label>
+              <button className="btn btn-dark" onClick={this.signOut}>Sign Out</button>
+              </div>
+              /*
               <Avatar
                 onClick={this.toggleUserCardPopover}
                 className="can-click"
               />
+              */
+            }
             </NavLink>
-            <Popover
+            {/* <Popover
               placement="bottom-end"
               isOpen={this.state.isOpenUserCardPopover}
               toggle={this.toggleUserCardPopover}
@@ -158,7 +180,7 @@ class Header extends React.Component {
                   </ListGroup>
                 </UserCard>
               </PopoverBody>
-            </Popover>
+            </Popover> */}
           </NavItem>
         </Nav>
       </Navbar>

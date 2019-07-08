@@ -27,8 +27,9 @@ const navItems = [
   { to: '/books', name: 'books', exact: true, Icon: FaBook },
   { to: '/friends', name: 'friends', exact: false, Icon: FaUserFriends },
   { to: '/events', name: 'events', exact: false, Icon: FaCalendar },
-  { to: '/login', name: 'Login / signup', exact: false, Icon: MdAccountCircle },
+  //{ to: '/login', name: 'Login / signup', exact: false, Icon: MdAccountCircle },
 ];
+
 
 const bem = bn.create('sidebar');
 
@@ -37,6 +38,7 @@ class Sidebar extends React.Component {
     isOpenComponents: true,
     isOpenContents: true,
     isOpenPages: true,
+    isAuthenticated: false,
   };
 
   handleClick = name => () => {
