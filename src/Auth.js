@@ -3,10 +3,9 @@ import auth0 from 'auth0-js';
 class Auth {
   constructor() {
     this.auth0 = new auth0.WebAuth({
-      // the following three lines MUST be updated
       domain: 'dev-g8flomwp.auth0.com',
       audience: 'https://dev-g8flomwp.auth0.com/userinfo',
-      clientID: 'j9irIsq26IcTz52oYlmylOutAidKBBl1',
+      clientID: 'FJN25qBc7iF9biPn2b2G519GBXo7k581',
       redirectUri: 'http://localhost:3000/callback',
       responseType: 'id_token',
       scope: 'openid profile'
@@ -52,10 +51,14 @@ class Auth {
   }
 
   signOut() {
-    // clear id token, profile, and expiration
-    this.idToken = null;
-    this.profile = null;
-    this.expiresAt = null;
+    this.auth0.logout({
+      returnTo: 'http://localhost:3000',
+      clientID: 'FJN25qBc7iF9biPn2b2G519GBXo7k581',
+    });
+    // // clear id token, profile, and expiration
+    // this.idToken = null;
+    // this.profile = null;
+    // this.expiresAt = null;
   }
 }
 
