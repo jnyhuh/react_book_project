@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9061360616f0ce205dc024d80b36be28",
+    "revision": "bd901299072a708438ffabad4e7a057b",
     "url": "https://jnyhuh.github.io/react_book_project_capstone/index.html"
   },
   {
-    "revision": "18f64f539ed7bdc0d768",
+    "revision": "0599fa11e85d7738b63a",
     "url": "https://jnyhuh.github.io/react_book_project_capstone/static/css/main.2b360685.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "https://jnyhuh.github.io/react_book_project_capstone/static/js/2.27031efd.chunk.js"
   },
   {
-    "revision": "18f64f539ed7bdc0d768",
-    "url": "https://jnyhuh.github.io/react_book_project_capstone/static/js/main.b01599e4.chunk.js"
+    "revision": "0599fa11e85d7738b63a",
+    "url": "https://jnyhuh.github.io/react_book_project_capstone/static/js/main.0577917c.chunk.js"
   },
   {
     "revision": "897eb28971292eacf6aa",
