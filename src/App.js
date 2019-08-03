@@ -1,46 +1,37 @@
-import { STATE_LOGIN, STATE_SIGNUP } from 'components/AuthForm';
 import GAListener from 'components/GAListener';
-import { EmptyLayout, LayoutRoute, MainLayout } from 'components/Layout';
-import {Route} from 'react-router-dom';
-import AuthPage from 'pages/AuthPage';
+import { LayoutRoute, MainLayout } from 'components/Layout';
 // pages
 import DashboardPage from 'pages/DashboardPage';
 import EventsPage from 'pages/EventsPage';
 import BooksPage from 'pages/BooksPage';
+import FavBooksPage from 'pages/FavBooksPage';
 import React from 'react';
 import componentQueries from 'react-component-queries';
-import { BrowserRouter, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter, Redirect, Switch, Route, withRouter } from 'react-router-dom';
 import './styles/reduction.scss';
 import Callback from './Callback';
+import auth0Client from './Auth';
 
 const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`;
 };
 
 class App extends React.Component {
-  
+  async componentDidMount() {
+    if (this.props.location.pathname === '/callback') return;
+    try {
+      await auth0Client.silentAuth();
+      this.forceUpdate();
+    } catch (err) {
+      if (err.error !== 'login_required') console.log(err.error);
+    }
+  }
+
   render() {
     return (
       <BrowserRouter basename={getBasename()}>
         <GAListener>
           <Switch>
-            {/* <LayoutRoute
-              exact
-              path="/login"
-              layout={EmptyLayout}
-              component={props => (
-                <AuthPage {...props} authState={STATE_LOGIN} />
-              )}
-            />
-            
-            <LayoutRoute
-              exact
-              path="/signup"
-              layout={EmptyLayout}
-              component={props => (
-                <AuthPage {...props} authState={STATE_SIGNUP} />
-              )}
-            /> */}
             <Route 
               exact 
               path="/callback"
@@ -54,7 +45,7 @@ class App extends React.Component {
             />
             <LayoutRoute
               exact
-              path="/events"
+              path="/calendar"
               layout={MainLayout}
               component={EventsPage}
             />
@@ -66,9 +57,9 @@ class App extends React.Component {
             />
             <LayoutRoute
               exact
-              path="/register"
+              path="/mybooks"
               layout={MainLayout}
-              component={AuthPage}
+              component={FavBooksPage}
             />
             <Redirect to="/" />
           </Switch>
@@ -102,4 +93,6 @@ const query = ({ width }) => {
   return { breakpoint: 'xs' };
 };
 
-export default componentQueries(query)(App);
+export default componentQueries(query)(withRouter(App));
+//export default withRouter(App);
+

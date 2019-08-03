@@ -113,6 +113,8 @@ export const supportTicketsData = [
   {
     id: 1,
     avatar: user1Image,
+    title: `A Dog's Purpose`,
+    author: 'W. Bruce Cameron',
     name: 'Sim',
     date: '30 mins ago',
     text:
@@ -121,6 +123,8 @@ export const supportTicketsData = [
   {
     id: 2,
     avatar: user2Image,
+    title: 'The Vegetarian',
+    author: 'Han Kang',
     name: 'Jane',
     date: '1 hour ago',
     text:
@@ -129,6 +133,8 @@ export const supportTicketsData = [
   {
     id: 3,
     avatar: user3Image,
+    title: 'Runaways',
+    author: 'Rainbow Rowell',
     name: 'Tom',
     date: 'yesterday',
     text:

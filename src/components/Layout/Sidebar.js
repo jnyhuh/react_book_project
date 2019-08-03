@@ -2,9 +2,8 @@ import logo200Image from 'assets/img/logo/logo_200.png';
 import sidebarBgImage from 'assets/img/sidebar/sidebar-4.jpg';
 import SourceLink from 'components/SourceLink';
 import React from 'react';
-import { FaCalendar, FaBook, FaUserFriends } from 'react-icons/fa';
+import { FaCalendar, FaBook, FaBookReader } from 'react-icons/fa';
 import {
-  MdAccountCircle,
   MdDashboard,
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
@@ -24,10 +23,10 @@ const sidebarBackground = {
 
 const navItems = [
   { to: '/', name: 'dashboard', exact: true, Icon: MdDashboard },
-  { to: '/books', name: 'books', exact: true, Icon: FaBook },
-  { to: '/friends', name: 'friends', exact: false, Icon: FaUserFriends },
-  { to: '/events', name: 'events', exact: false, Icon: FaCalendar },
-  //{ to: '/login', name: 'Login / signup', exact: false, Icon: MdAccountCircle },
+  { to: '/books', name: 'book search', exact: true, Icon: FaBook },
+  { to: '/mybooks', name: 'My Books', exact: false, Icon: FaBookReader },
+  // { to: '/friends', name: 'friends', exact: false, Icon: FaUserFriends },
+  { to: '/calendar', name: 'calendar', exact: false, Icon: FaCalendar },
 ];
 
 

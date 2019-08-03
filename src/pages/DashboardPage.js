@@ -1,24 +1,18 @@
-import { AnnouncementCard, TodosCard } from 'components/Card';
+import { AnnouncementCard } from 'components/Card';
 import Page from 'components/Page';
 import ProductMedia from 'components/ProductMedia';
 import SupportTicket from 'components/SupportTicket';
-import UserProgressTable from 'components/UserProgressTable';
 import { IconWidget, NumberWidget } from 'components/Widget';
 import {
   productsData,
   supportTicketsData,
-  userProgressTableData,
 } from 'demos/dashboardPage';
 import React from 'react';
 import {
-  MdPersonPin,
   MdRateReview,
-  MdShare,
   MdThumbUp,
 } from 'react-icons/md';
-import InfiniteCalendar from 'react-infinite-calendar';
 import {
-  Button,
   Card,
   CardBody,
   CardGroup,
@@ -26,19 +20,9 @@ import {
   Col,
   Row,
 } from 'reactstrap';
-import { getColor } from 'utils/colors';
-
-const today = new Date();
-const lastWeek = new Date(
-  today.getFullYear(),
-  today.getMonth(),
-  today.getDate() - 7,
-);
 
 class DashboardPage extends React.Component {
   render() {
-    const primaryColor = getColor('primary');
-    const secondaryColor = getColor('secondary');
 
     return (
       <Page
@@ -46,22 +30,22 @@ class DashboardPage extends React.Component {
         title="Your Dashboard"
       >
         <Row>
-          <Col lg={3} md={6} sm={6} xs={12}>
+          <Col lg={6} md={6} sm={6} xs={12}>
             <NumberWidget
-              title="Books Read: Self"
+              title="Books Reviewed by Users"
               subtitle="This Year"
-              number="22"
+              number="30"
               color="secondary"
               progress={{
-                value: 73,
-                label: 'Goal: 30',
+                value: 30,
+                label: 'Goal: 100',
               }}
             />
           </Col>
 
-          <Col lg={4} md={6} sm={6} xs={12}>
+          <Col lg={6} md={6} sm={6} xs={12}>
             <NumberWidget
-              title="Books Read: Friends"
+              title="Books Read by Users"
               subtitle="This Year"
               number="300"
               color="secondary"
@@ -72,33 +56,36 @@ class DashboardPage extends React.Component {
             />
           </Col>
         </Row>
-
-        <CardGroup style={{ marginBottom: '1rem' }}>
-          <IconWidget
-            bgColor="white"
-            inverse={false}
-            icon={MdThumbUp}
-            title="50+ Books"
-            subtitle="Books you read"
-          />
-          <IconWidget
-            bgColor="white"
-            inverse={false}
-            icon={MdRateReview}
-            title="10+ Reviews"
-            subtitle="Books you reviewed"
-          />
-          <IconWidget
-            bgColor="white"
-            inverse={false}
-            icon={MdShare}
-            title="30+ Shares"
-            subtitle="Books you shared"
-          />
-        </CardGroup>
-
         <Row>
-          <Col md="7" sm="12" xs="12">
+          <Col lg="12" md="12" sm="12" xs="12">
+            <AnnouncementCard
+              color="gradient-secondary"
+              header="Announcement"
+              avatarSize={60}
+              name="Jennifer"
+              date="08/11/2019"
+              text="We will be having a virtual book meeting with today's best-seller authors! The event will take place on September 29, 2019 at 7pm EST."
+              style={{ height: 300 }}
+            />
+          </Col>  
+        </Row>
+        <Row>
+          <Col lg="6" md="12" sm="12" xs="12">
+            <Card>
+              <CardHeader>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span>Book Reviews by Other Users</span>
+                </div>
+              </CardHeader>
+              <CardBody>
+                {supportTicketsData.map(supportTicket => (
+                  <SupportTicket key={supportTicket.id} {...supportTicket} />
+                ))}
+              </CardBody>
+            </Card>
+          </Col>
+
+          <Col md="6" sm="12" xs="12">
             <Card>
               <CardHeader>Books on Sale</CardHeader>
               <CardBody>
@@ -116,60 +103,23 @@ class DashboardPage extends React.Component {
               </CardBody>
             </Card>
           </Col>
-          
-          <Col lg="4" md="12" sm="12" xs="12">
-            <AnnouncementCard
-              color="gradient-secondary"
-              header="Announcement"
-              avatarSize={60}
-              name="Jennifer"
-              date="1 hour ago"
-              text="Come to half priced books this Thursday, June 21st! Annual Puppies, Wine, and Read event is being held. All proceeds go to the Humane Society."
-              buttonProps={{
-                children: 'more info',
-              }}
-              style={{ height: 500 }}
-            />
-          </Col>  
         </Row>
-
-        <Row>
-          <Col md="6" sm="12" xs="12">
-            <Card>
-              <CardHeader>Bookclub Reading Progress</CardHeader>
-              <CardBody>
-                <UserProgressTable
-                  headers={[
-                    <MdPersonPin size={25} />,
-                    'name',
-                    'date',
-                    'progress',
-                    '%',
-                  ]}
-                  usersData={userProgressTableData}
-                />
-              </CardBody>
-            </Card>
-          </Col>
-
-          <Col lg="6" md="12" sm="12" xs="12">
-            <Card>
-              <CardHeader>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span>Friend Book Reviews</span>
-                  <Button>
-                    <small>View</small>
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardBody>
-                {supportTicketsData.map(supportTicket => (
-                  <SupportTicket key={supportTicket.id} {...supportTicket} />
-                ))}
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
+        <CardGroup style={{ marginBottom: '1rem' }}>
+          <IconWidget
+            bgColor="white"
+            inverse={false}
+            icon={MdThumbUp}
+            title="50+ Likes"
+            subtitle="Many users liked our page"
+          />
+          <IconWidget
+            bgColor="white"
+            inverse={false}
+            icon={MdRateReview}
+            title="10+ Authors"
+            subtitle="Many authors joined our website"
+          />
+        </CardGroup>
       </Page>
     );
   }

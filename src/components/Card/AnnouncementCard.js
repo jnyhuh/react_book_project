@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'utils/propTypes';
 
-import { Card, CardHeader, CardBody, CardText, Button } from 'reactstrap';
+import { Card, CardHeader, CardBody, CardText } from 'reactstrap';
 
 import Avatar from 'components/Avatar';
 
@@ -16,7 +16,6 @@ const AnnouncementCard = ({
   date,
   text,
   className,
-  buttonProps,
   ...restProps
 }) => {
   const bgColor = `bg-${color}`;
@@ -36,8 +35,6 @@ const AnnouncementCard = ({
           <small className="text-muted">{date}</small>
         </CardText>
         <CardText className="text-center">{text}</CardText>
-
-        <Button color="primary" {...buttonProps} />
       </CardBody>
     </Card>
   );

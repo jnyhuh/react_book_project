@@ -13,6 +13,8 @@ const statusMap = {
 
 const SupportTicket = ({
   avatar,
+  title,
+  author,
   name,
   date,
   text,
@@ -32,6 +34,12 @@ const SupportTicket = ({
           </Media>
           <p className="text-muted m-0">
             <small>{date}</small>
+          </p>
+          <p className="text-muted m-0">
+            <medium>Title: {title}</medium>
+          </p>
+          <p className="text-muted m-0">
+            <small>Author: {author}</small>
           </p>
         </Media>
         <Media right className="align-self-center">

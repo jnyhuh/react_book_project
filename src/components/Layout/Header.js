@@ -1,24 +1,14 @@
-import Avatar from 'components/Avatar';
-import { UserCard } from 'components/Card';
 import Notifications from 'components/Notifications';
 import { notificationsData } from 'demos/header';
 import withBadge from 'hocs/withBadge';
 import React from 'react';
 import {
   MdClearAll,
-  MdExitToApp,
-  MdHelp,
-  MdInsertChart,
-  MdMessage,
   MdNotificationsActive,
   MdNotificationsNone,
-  MdPersonPin,
-  MdSettingsApplications,
 } from 'react-icons/md';
 import {
   Button,
-  ListGroup,
-  ListGroupItem,
   // NavbarToggler,
   Nav,
   Navbar,

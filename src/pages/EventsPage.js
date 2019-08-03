@@ -26,8 +26,8 @@ class EventsPage extends React.Component {
 
     return (
       <Page
-        className="Events"
-        title="Your Events"
+        className="Calendar"
+        title="Book Calendar"
       >
         <Row>
           <Col lg="12" md="12" sm="12" xs="12">
