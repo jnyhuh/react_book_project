@@ -6,6 +6,7 @@ class Auth {
       domain: 'dev-g8flomwp.auth0.com',
       audience: 'https://dev-g8flomwp.auth0.com/userinfo',
       clientID: 'FJN25qBc7iF9biPn2b2G519GBXo7k581',
+      //redirectUri: 'https://jnyhuh.github.io/react_book_project_capstone/callback',
       redirectUri: 'http://localhost:3000/callback',
       responseType: 'id_token',
       scope: 'openid profile'
@@ -56,6 +57,7 @@ class Auth {
 
   signOut() {
     this.auth0.logout({
+      //returnTo: 'https://jnyhuh.github.io/react_book_project_capstone/src',
       returnTo: 'http://localhost:3000',
       clientID: 'FJN25qBc7iF9biPn2b2G519GBXo7k581',
     });

@@ -11,7 +11,7 @@ const BookSearchTable = ({ headers, bookData, ...restProps }) => {
         </tr>
       </thead>
       <tbody>
-        {bookData.map(({ title, author, isbn, publication_date, publisher, favorite }, index) => (
+        {bookData.map(({ title, author, publication_date, publisher, isbn, favorite }, index) => (
           <tr key={index}>
             <td className="align-middle text-center">{title}</td>
             <td className="align-middle text-center">{author}</td>
@@ -32,9 +32,9 @@ BookSearchTable.propTypes = {
     PropTypes.shape({
       title: PropTypes.string,
       author: PropTypes.string,
-      isbn: PropTypes.string,
       publication_date: PropTypes.int,
       publisher: PropTypes.string,
+      isbn: PropTypes.string,
     })
   ),
 };

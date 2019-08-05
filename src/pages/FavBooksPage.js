@@ -55,17 +55,16 @@ class FavBooksPage extends Component {
             };
             return { data: updatedRecord }
         });
-        this.props.onDeleteFavBooks(this.state.data.isbn, this.state.data.title, this.state.data.author, this.props.auth.user)
+        this.props.onDeleteFavBooks(auth0Client.getProfile().name)
+        //this.state.data.isbn, this.state.data.title, this.state.data.author, 
     }
 
-    onDelete = (isbn, title, author) => {
+    onDelete = (ISBN) => {
         this.setState(prevState => {
             return {
                 modalShow: !prevState.modalShow,
                 data: {
-                    isbn: isbn,
-                    title: title,
-                    author: author,
+                    isbn: ISBN,
                 }
             }
         })
@@ -100,7 +99,7 @@ class FavBooksPage extends Component {
                 sort: true,
             },
             {
-                dataField: 'isbn',
+                dataField: 'ISBN',
                 text: 'ISBN',
                 sort: true,
             },
@@ -110,7 +109,7 @@ class FavBooksPage extends Component {
                 formatter: (cell, row) => {
                     return(
                         <span>
-                            <Button color="danger" onClick={() => this.onDelete(row.isbn, row.title, row.author)}><i class="MdRemoveCircle"></i></Button>
+                            <Button color="danger" onClick={() => this.onDelete(row.ISBN)}>delete</Button>
                         </span>
                     )
                 },
@@ -147,7 +146,7 @@ class FavBooksPage extends Component {
                             </CardHeader>
                             <CardBody>
                                 <ToolkitProvider 
-                                keyField='isbn' 
+                                keyField='ISBN' 
                                 data={this.props.favBooks} 
                                 columns={columns} 
                                 search>

@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Page from 'components/Page';
 import { MdSearch } from 'react-icons/md';
-import { Card, CardBody, CardHeader, Col, Row, Button, Form, Input, Alert } from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, Badge, Button, Form, Input, Alert } from 'reactstrap';
 import { MdFavorite } from 'react-icons/md';
 import BookSearchTable from 'components/BookSearchTable';
 import auth0Client from '../Auth';
 
 const BooksPage = () => {
-
     //fetching the book information
     const API_URL = 'http://book-tracker-orch1-brave-elephant.mybluemix.net/api/search/'
     const [query, setQuery] = useState('');
@@ -30,7 +29,7 @@ const BooksPage = () => {
       console.log(result);
       setBooks(result.data.body);
     }
-    
+
     const addBooks = (username, isbn, title, author) => {
       const url = 'http://book-tracker-orch1-brave-elephant.mybluemix.net/api/favorites/' + username;
         axios(
@@ -47,17 +46,15 @@ const BooksPage = () => {
                     'X-API-KEY': 'test_token',
                 },
             }).then(response => {
-                if(response.data.success) {
-                    //dispatch(addFavBooksSuccess(response.data.data));
-                    console.log('response received', response.data.data)
+                if(response.statusText === "OK") {
+                    console.log('response received')
+                    console.log(isbn)
                 }
                 else {
-                    //dispatch(addFavBooksFail(response.data.message));
-                    console.log('failed to add books', response.data.message)
+                    console.log('failed to add books', response.message)
                 }
             })
             .catch(err => {
-                //dispatch(addFavBooksFail(err.message));
                   console.log('error', err)
             });
     };
@@ -71,7 +68,7 @@ const BooksPage = () => {
       publication_date: book.publication_date,
       publisher: book.publisher,
       isbn: book.isbn,
-      favorite: bookIcon(book.publisher, book.title, bookAuthors(book.author)),
+      favorite: bookIcon(book.isbn, book.title, bookAuthors(book.author)),
       })
       )
       )
@@ -139,11 +136,11 @@ const BooksPage = () => {
     }
 
     //add books if a user is logged in
-    const onAdd = (publisher, title, author) => {
+    const onAdd = (isbn, title, author) => {
 
       if (auth0Client.isAuthenticated()){
         //put in favorites request
-        addBooks(fetchUser(), publisher, title, author)
+        addBooks(fetchUser(), isbn, title, author)
       }
     }
     
@@ -152,7 +149,7 @@ const BooksPage = () => {
       className="Books"
       title="Search for Books"
       >
-      <Greeting />,
+      <Greeting />
       <Row>
           <Col md="6" sm="4" xs="2">
           <Form inline className="cr-search-form" onSubmit={onSubmitHandler}>

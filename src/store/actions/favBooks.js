@@ -124,34 +124,32 @@ export const addFavBooks = (username, isbn, title, author) => {
     };
 };
 
-export const deleteFavBooks = (username, isbn, title, author) => {
+export const deleteFavBooks = (username, isbn) => {
     return dispatch => {
-        dispatch(addFavBooksStart());
+        dispatch(deleteFavBooksStart());
         const url = 'http://book-tracker-orch1-brave-elephant.mybluemix.net/api/favorites/' + username;
         axios(
             {
                 url: url,
-                method: 'post',
-                data: {
-                    "isbn": isbn,
-                    "title": title,
-                    "author": author
-                },
+                method: 'delete',
+                // data: {
+                //     "isbn": isbn
+                // },
                 headers: {
                     'Content-Type': 'application/json',
                     'X-API-KEY': 'test_token',
                 },
             }).then(response => {
                 if(response.statusText === "OK") {
-                    dispatch(addFavBooksSuccess(response.data.body));
+                    console.log('deleted books')
                 }
                 else {
-                    dispatch(addFavBooksFail(response.data.message));
+                    console.log('failed to delete books')
                 }
-            })
+            }).then(dispatch(fetchFavBooks(username)))
             .catch(err => {
-                dispatch(addFavBooksFail(err.message));
+                console.log('error', err)
             });
-    };
+        };
 };
 
