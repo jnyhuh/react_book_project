@@ -37,7 +37,6 @@ const BooksPage = () => {
             {
                 url: url,
                 method: 'post',
-                mode: 'no-cors',
                 data: {
                     "isbn": isbn,
                     "title": title,
@@ -50,7 +49,6 @@ const BooksPage = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'X-API-KEY': 'test_token',
-                    'Access-Control-Allow-Origin': '*',
                 },
             }).then(response => {
                 if(response.data.statusCode===200) {
