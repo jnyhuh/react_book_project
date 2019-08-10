@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Page from 'components/Page';
 import { MdSearch } from 'react-icons/md';
-import { Card, CardBody, CardHeader, Col, Row, Badge, Button, Form, Input, Alert } from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, Button, Form, Input, Alert } from 'reactstrap';
 import { MdFavorite } from 'react-icons/md';
 import BookSearchTable from 'components/BookSearchTable';
 import auth0Client from '../Auth';
@@ -12,6 +12,8 @@ const BooksPage = () => {
     const API_URL = 'http://book-tracker-orch1-brave-elephant.mybluemix.net/api/search/'
     const [query, setQuery] = useState('');
     const [books, setBooks] = useState({books: []});
+    const [addBooksSuccess, setAddBooksSuccess] = useState('');
+    const [addBooksFail, setAddBooksFail] = useState('');
 
     const fetchBooks = async () => {
       const result = await 
@@ -26,32 +28,40 @@ const BooksPage = () => {
             },
           }
       );
-      console.log(result);
       setBooks(result.data.body);
     }
 
-    const addBooks = (username, isbn, title, author) => {
+    const addBooks = (username, isbn, title, author, publication_date, publisher) => {
       const url = 'http://book-tracker-orch1-brave-elephant.mybluemix.net/api/favorites/' + username;
-        axios(
+         axios(
             {
                 url: url,
                 method: 'post',
+                mode: 'no-cors',
                 data: {
                     "isbn": isbn,
                     "title": title,
-                    "author": author
+                    "author": author,
+                    "publication_date": publication_date,
+                    "publisher": publisher,
+                    "category": "na",
+                    "genre": "na"
                 },
                 headers: {
                     'Content-Type': 'application/json',
                     'X-API-KEY': 'test_token',
+                    'Access-Control-Allow-Origin': '*',
                 },
             }).then(response => {
-                if(response.statusText === "OK") {
+                if(response.data.statusCode===200) {
                     console.log('response received')
-                    console.log(isbn)
+                    console.log(response)
+                    setAddBooksSuccess('success');
                 }
                 else {
-                    console.log('failed to add books', response.message)
+                  console.log('failed to add books', response.data.body)
+                  console.log(response)
+                  setAddBooksFail('fail');
                 }
             })
             .catch(err => {
@@ -68,7 +78,7 @@ const BooksPage = () => {
       publication_date: book.publication_date,
       publisher: book.publisher,
       isbn: book.isbn,
-      favorite: bookIcon(book.isbn, book.title, bookAuthors(book.author)),
+      favorite: bookIcon(book.isbn, book.title, bookAuthors(book.author), book.publication_date, book.publisher),
       })
       )
       )
@@ -87,15 +97,15 @@ const BooksPage = () => {
       return authors;
     }
 
-    const bookIcon = (publisher, title, author) => {
+    const bookIcon = (isbn, title, author, publication_date, publisher) => {
       return(
-      <MdFavorite
+        <MdFavorite
             size={25}
             className="text-secondary can-click"
-            onClick={() => {onAdd(publisher, title, author);}}
+            onClick={() => {onAdd(isbn, title, author, publication_date, publisher);}}
           />
-      )
-    }
+        )
+      }
 
     //submit/input handler for the search function
     const onSubmitHandler = (e) => {
@@ -135,12 +145,48 @@ const BooksPage = () => {
       }
     }
 
+    //Set notification if user added a book
+    const NotificationStart = () => {
+      return (<Alert color="info">
+        Search books here!
+      </Alert>)
+    }
+    
+    const NotificationSuccess = () => {
+      return (
+        <Alert color="success">
+          Book added successfully.
+        </Alert>
+      );
+    }
+
+    const NotificationFail = () => {
+      return (
+        <Alert color="danger">
+          Book failed to add.
+        </Alert>
+      );
+    }
+
+    function Notification() {
+      if (addBooksSuccess){
+        console.log({addBooksSuccess})
+        return <NotificationSuccess />
+      }
+      else if (addBooksFail){
+        return <NotificationFail />
+      }
+      else {
+       return <NotificationStart />;
+      }
+    }
+
     //add books if a user is logged in
-    const onAdd = (isbn, title, author) => {
+    const onAdd = (isbn, title, author, publication_date, publisher) => {
 
       if (auth0Client.isAuthenticated()){
         //put in favorites request
-        addBooks(fetchUser(), isbn, title, author)
+        addBooks(fetchUser(), isbn, title, author, publication_date, publisher)
       }
     }
     
@@ -150,6 +196,7 @@ const BooksPage = () => {
       title="Search for Books"
       >
       <Greeting />
+      <Notification />
       <Row>
           <Col md="6" sm="4" xs="2">
           <Form inline className="cr-search-form" onSubmit={onSubmitHandler}>

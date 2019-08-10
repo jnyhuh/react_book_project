@@ -4,7 +4,33 @@ const initialState = {
     data: [],
     loading: false,
     error: null,
+    user: null,
 }
+
+const fetchUserStart = (state, action) => {
+    return {
+        ...state,
+        loading: true,
+        error: null,
+    }
+};
+
+const fetchUserSuccess = (state, action) => {
+    return {
+        ...state,
+        loading: false,
+        user: action.user,
+        error: null,
+    }
+};
+
+const fetchUserFail = (state, action) => {
+    return {
+        ...state,
+        loading: false,
+        error: null,
+    }
+};
 
 const fetchFavBooksStart = (state, action) => {
     return {
@@ -86,6 +112,9 @@ const deleteFavBooksFail = (state, action) => {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.FETCH_USER_START: return fetchUserStart(state, action);
+        case actionTypes.FETCH_USER_SUCCESS: return fetchUserSuccess(state, action);
+        case actionTypes.FETCH_USER_FAIL: return fetchUserFail(state, action);
         case actionTypes.FETCH_FAVORITE_BOOKS_START: return fetchFavBooksStart(state, action);
         case actionTypes.FETCH_FAVORITE_BOOKS_SUCCESS: return fetchFavBooksSuccess(state, action);
         case actionTypes.FETCH_FAVORITE_BOOKS_FAIL: return fetchFavBooksFail(state, action);

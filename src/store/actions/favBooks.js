@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
+import auth0Client from '../../Auth';
 
 export const fetchFavBooksStart = () => {
     return {
@@ -63,6 +64,39 @@ export const deleteFavBooksFail = (error) => {
     };
 };
 
+export const fetchUserStart = () => {
+    return {
+        type: actionTypes.FETCH_USER_START
+    }
+}
+
+export const fetchUserSuccess = (user) => {
+    return {
+        type: actionTypes.FETCH_USER_SUCCESS,
+        user: user
+    }
+}
+
+export const fetchUserFail = () => {
+    return {
+        type: actionTypes.FETCH_USER_FAIL
+    }
+}
+
+export const fetchUser = () =>{
+    return dispatch => {
+        dispatch(fetchUserStart())
+        if (auth0Client.isAuthenticated)
+        {
+            const user = auth0Client.getProfile().name
+            dispatch(fetchUserSuccess(user))
+        }
+        else {
+            dispatch(fetchUserFail())
+        }
+    }
+}
+
 export const fetchFavBooks = (username) => {
     return dispatch => {
         dispatch(fetchFavBooksStart());
@@ -93,7 +127,7 @@ export const fetchFavBooks = (username) => {
     };
 };
 
-export const addFavBooks = (username, isbn, title, author) => {
+export const addFavBooks = (username, isbn, author, title, publisher, publication_date) => {
     return dispatch => {
         dispatch(addFavBooksStart());
         const url = 'http://book-tracker-orch1-brave-elephant.mybluemix.net/api/favorites/' + username;
@@ -103,8 +137,11 @@ export const addFavBooks = (username, isbn, title, author) => {
                 method: 'post',
                 data: {
                     "isbn": isbn,
+                    "author": author,
                     "title": title,
-                    "author": author
+                    "publisher": publisher,
+                    "publication_date": publication_date
+                
                 },
                 headers: {
                     'Content-Type': 'application/json',
@@ -132,21 +169,23 @@ export const deleteFavBooks = (username, isbn) => {
             {
                 url: url,
                 method: 'delete',
-                // data: {
-                //     "isbn": isbn
-                // },
+                data: {
+                    "isbn": isbn
+                },
                 headers: {
                     'Content-Type': 'application/json',
                     'X-API-KEY': 'test_token',
                 },
-            }).then(response => {
+            })
+            .then(response => {
                 if(response.statusText === "OK") {
-                    console.log('deleted books')
+                    console.log('deleted books', isbn)
+                    dispatch(fetchFavBooks(username))
                 }
                 else {
                     console.log('failed to delete books')
                 }
-            }).then(dispatch(fetchFavBooks(username)))
+            })
             .catch(err => {
                 console.log('error', err)
             });

@@ -6,10 +6,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import * as actions from '../store/actions';
-import {
-    MdRemoveCircle,
-  } from 'react-icons/md';
-import DeleteFavBooks from '../components/DeleteFavBooks';
+import DeleteFavBooks from 'components/DeleteFavBooks';
 import auth0Client from '../Auth';
 import Page from 'components/Page';
 
@@ -23,13 +20,16 @@ class FavBooksPage extends Component {
         this.state = {
             data: null,
             error: null,
+            user: null,
             modalShow: false,
             showRecord: false,
         };
     }
-
-    componentDidMount() {
-        this.props.onFetchFavBooks('testuser@test.com');
+    
+    componentWillMount() {
+        if(auth0Client.isAuthenticated()){
+            this.props.onFetchFavBooks(auth0Client.getProfile().name)
+        }        
     }
 
     componentWillReceiveProps(nextProps) {
@@ -37,7 +37,7 @@ class FavBooksPage extends Component {
             this.props.notifySend({msg: nextProps.error})
         }
     }
-
+    
     toggleFavBookDeleteHandler = () => {
         this.setState(prevState => {
             return { modalShow: !prevState.modalShow }
@@ -55,16 +55,17 @@ class FavBooksPage extends Component {
             };
             return { data: updatedRecord }
         });
-        this.props.onDeleteFavBooks(auth0Client.getProfile().name)
-        //this.state.data.isbn, this.state.data.title, this.state.data.author, 
+        this.props.onDeleteFavBooks(auth0Client.getProfile().name, this.state.data.isbn)
     }
 
-    onDelete = (ISBN) => {
+    onDelete = (ISBN, title, author) => {
         this.setState(prevState => {
             return {
                 modalShow: !prevState.modalShow,
                 data: {
                     isbn: ISBN,
+                    title: title,
+                    author: author,
                 }
             }
         })
@@ -89,12 +90,12 @@ class FavBooksPage extends Component {
             </Card>);
         const columns = [
             {
-                dataField: 'title',
+                dataField: 'TITLE',
                 text: 'Title',
                 sort: true,
             },
             {
-                dataField: 'author',
+                dataField: 'AUTHOR',
                 text: 'Author',
                 sort: true,
             },
@@ -109,7 +110,7 @@ class FavBooksPage extends Component {
                 formatter: (cell, row) => {
                     return(
                         <span>
-                            <Button color="danger" onClick={() => this.onDelete(row.ISBN)}>delete</Button>
+                            <Button color="danger" onClick={() => this.onDelete(row.ISBN, row.TITLE, row.AUTHOR)}>delete</Button>
                         </span>
                     )
                 },
@@ -177,6 +178,7 @@ const mapStateToProps = state => {
         favBooks: state.favBooks.data,
         loading: state.favBooks.loading,
         error: state.favBooks.error,
+        user: state.favBooks.user
     }
 }
 
@@ -185,7 +187,8 @@ const mapDispatchToProps = dispatch => {
         notifySend: (item) => dispatch(actions.notifySend(item)),
         notifyDismiss: (item) => dispatch(actions.notifyDismiss(item)),
         onFetchFavBooks: (user) => dispatch(actions.fetchFavBooks(user)),
-        onDeleteFavBooks: (user, isbn, title, author) => dispatch(actions.deleteFavBooks(user, isbn, title, author)),
+        onDeleteFavBooks: (user, isbn) => dispatch(actions.deleteFavBooks(user, isbn)),
+        onFetchUser: () => dispatch(actions.fetchUser()),
     }
 };
 

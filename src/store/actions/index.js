@@ -9,6 +9,7 @@ export {
 } from './bookSearch';
 
 export {
+    fetchUser,
     fetchFavBooks,
     addFavBooks,
     deleteFavBooks,
