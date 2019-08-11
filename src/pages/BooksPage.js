@@ -43,8 +43,8 @@ const BooksPage = () => {
                     "author": author,
                     "publication_date": publication_date,
                     "publisher": publisher,
-                    "category": "na",
-                    "genre": "na"
+                    "category": null,
+                    "genre": null
                 },
                 headers: {
                     'Content-Type': 'application/json',
